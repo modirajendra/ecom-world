@@ -15,4 +15,6 @@ http.createServer(function(req, res) {
         res.writeHead(404, {'Content-Type': 'text/plain'});
         res.end('Not Found');
     }
-}).listen(1337, '
+}).listen(1337, () => {
+    console.log('Server running at http://localhost:1337/');
+})
