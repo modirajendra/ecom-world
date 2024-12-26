@@ -1,55 +1,14 @@
-// create web server
-const express = require('express');
-const app = express();
-app.listen(3000);
+//Create web server
+//Create a web server that listens on port 3200. When you visit http://localhost:3200/ in your browser, the server should respond with a status code of 200 and a response body of "OK".
+const http = require('http');
+const port = 3200;
 
-// create comments array
-let comments = [
-    {username: 'Alice', body: 'I love cats!'},
-    {username: 'Bob', body: 'I love dogs!'},
-    {username: 'Charlie', body: 'I love parrots!'}
-];
+const requestHandler = (request, response) => {
+  response.end('OK');
+};
 
-// create GET route for /comments
-app.get('/comments', (req, res) => {
-    res.send(comments);
+const server = http.createServer(requestHandler);
+
+server.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });
-
-// create POST route for /comments
-app.post('/comments', (req, res) => {
-    let username = req.query.username;
-    let body = req.query.body;
-    comments.push({username: username, body: body});
-    res.send('Comment added');
-});
-
-// create DELETE route for /comments
-app.delete('/comments', (req, res) => {
-    let username = req.query.username;
-    comments = comments.filter(comment => {
-        return comment.username !== username;
-    });
-    res.send('Comment deleted');
-});
-
-// create PUT route for /comments
-app.put('/comments', (req, res) => {
-    let username = req.query.username;
-    let body = req.query.body;
-    comments.forEach(comment => {
-        if (comment.username === username) {
-            comment.body = body;
-        }
-    });
-    res.send('Comment updated');
-});
-
-// test the routes
-// GET
-// http://localhost:3000/comments
-// POST
-// http://localhost:3000/comments?username=David&body=I love rabbits!
-// DELETE
-// http://localhost:3000/comments?username=Bob
-// PUT
-// http://localhost:3000/comments?username=David&body=I love dogs!
